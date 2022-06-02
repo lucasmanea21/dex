@@ -15,6 +15,7 @@ const Dashboard = () => {
                   <TopInfo />
                   <Actions />
                 </div>
+                <div></div>
               </div>
               <Transactions />
             </div>

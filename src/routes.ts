@@ -1,4 +1,5 @@
 import { dAppName } from 'config';
+import Swap from 'pages/Swap';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
@@ -17,7 +18,7 @@ const routes: Array<any> = [
   {
     path: routeNames.home,
     title: 'Home',
-    component: Home
+    component: Swap
   },
   {
     path: routeNames.dashboard,

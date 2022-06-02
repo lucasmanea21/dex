@@ -10,9 +10,10 @@ import {
   Address,
   AddressValue,
   ContractFunction,
-  ProxyProvider,
   Query
-} from '@elrondnetwork/erdjs';
+} from '@elrondnetwork/erdjs/out';
+import { ProxyNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
+
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
@@ -51,38 +52,38 @@ const Actions = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(mount, [hasPing]);
 
-  React.useEffect(() => {
-    const query = new Query({
-      address: new Address(contractAddress),
-      func: new ContractFunction('getTimeToPong'),
-      args: [new AddressValue(new Address(address))]
-    });
-    const proxy = new ProxyProvider(network.apiAddress);
-    proxy
-      .queryContract(query)
-      .then(({ returnData }) => {
-        const [encoded] = returnData;
-        switch (encoded) {
-          case undefined:
-            setHasPing(true);
-            break;
-          case '':
-            setSecondsLeft(0);
-            setHasPing(false);
-            break;
-          default: {
-            const decoded = Buffer.from(encoded, 'base64').toString('hex');
-            setSecondsLeft(parseInt(decoded, 16));
-            setHasPing(false);
-            break;
-          }
-        }
-      })
-      .catch((err) => {
-        console.error('Unable to call VM query', err);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasPendingTransactions]);
+  // React.useEffect(() => {
+  //   const query = new Query({
+  //     address: new Address(contractAddress),
+  //     func: new ContractFunction('getTimeToPong'),
+  //     args: [new AddressValue(new Address(address))]
+  //   });
+  //   const proxy = new ProxyProvider(network.apiAddress);
+  //   proxy
+  //     .queryContract(query)
+  //     .then(({ returnData }) => {
+  //       const [encoded] = returnData;
+  //       switch (encoded) {
+  //         case undefined:
+  //           setHasPing(true);
+  //           break;
+  //         case '':
+  //           setSecondsLeft(0);
+  //           setHasPing(false);
+  //           break;
+  //         default: {
+  //           const decoded = Buffer.from(encoded, 'base64').toString('hex');
+  //           setSecondsLeft(parseInt(decoded, 16));
+  //           setHasPing(false);
+  //           break;
+  //         }
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error('Unable to call VM query', err);
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [hasPendingTransactions]);
 
   const { sendTransactions } = transactionServices;
 
